@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ezoza</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06140e;--fg:#f3ead7;--gold:#e9c46a;--red:#b3122b;--g:#2a9d6f;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html,body{height:100%;margin:0}
+body{background:radial-gradient(ellipse at 50% 30%,#0f3a28,var(--bg) 70%);color:var(--fg);font:500 20px/1.5 'Cormorant Garamond',Georgia,serif;overflow:hidden;touch-action:manipulation}
+.st{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px;text-align:center}
+.st.on{display:flex;animation:in .8s}
+@keyframes in{from{opacity:0}to{opacity:1}}
+h2{font-size:34px;margin:0;font-style:italic}
+p{margin:0;max-width:440px}
+button{font:inherit;color:var(--fg);background:transparent;border:1px solid var(--gold);border-radius:30px;padding:10px 28px;cursor:pointer;min-width:190px}
+button:hover,button:focus-visible{background:var(--gold);color:var(--bg);outline:none}
+#f{position:relative;width:min(90vw,420px);height:120px;touch-action:none}
+#f i{position:absolute;top:50%;width:44px;height:44px;margin:-22px;border-radius:50%;background:radial-gradient(#fff,var(--gold) 40%,transparent 70%);box-shadow:0 0 30px var(--gold)}
+#o1{left:15%}#o2{left:85%;cursor:grab}
+#rose{font-size:90px;cursor:pointer;transition:transform .4s;user-select:none;filter:drop-shadow(0 0 20px var(--red))}
+#why{min-height:90px;font-size:22px}
+#arena{position:relative;width:min(92vw,480px);height:46vh;border:1px solid #2a9d6f55;border-radius:12px;overflow:hidden}
+.h{position:absolute;top:-50px;font-size:38px;background:none;border:0;padding:0;min-width:0;animation:fall 4.5s linear forwards}
+.h:hover{background:none}
+@keyframes fall{to{top:100%}}
+#key{font-size:70px;border:0;background:none;animation:pulse 1.6s infinite}
+@keyframes pulse{50%{transform:scale(1.15)}}
+#c{position:absolute;inset:0;display:none;z-index:5;background:var(--bg)}#c.on{display:block}
+#let{min-height:190px;font-size:23px;max-width:460px}
+#fin{opacity:0;transition:opacity 2s;color:var(--gold);font-size:24px}
+#m{position:fixed;right:14px;top:calc(env(safe-area-inset-top,0px) + 10px);min-width:0;padding:6px 12px;z-index:9}
+.sh{animation:sh .4s}@keyframes sh{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important}}
+</style></head><body>
+<button id="m" onclick="mus()" aria-label="music">🔇</button>
+<canvas id="c"></canvas>
+<div class="st on" id="p"><h2>Ezoza ♥</h2><button onclick="go('en')">English</button><button onclick="go('de')">Deutsch</button><button onclick="go('tr')">Türkçe</button></div>
+<div class="st" id="s"></div>
+<script>
+const START='2026-09-01'; // TODO: change to the real date of your first glance
+const T={
+en:{a:'Two glances',h1:'Drag the light to the other one.',q:'Babe, what did we have on that Friday?',o:['Ice cream 🍦','Pizza 🍕','Coffee ☕','Soup 🍲'],no:'Not quite… think of that Friday 😉',h3:'Tap the rose',rs:['Because of the way you look at me.','Because you smile at my messages.','Because small things make you happiest.','Because that Friday became my favourite memory.','Because every day with you is softer.'],h4:'Catch 7 hearts',h5:'Tap the key',lt:'Ezoza, it all began in September with a single look. Since then, your smile at my messages is my favourite thing. I don\'t need anything big, just to be beside you. Always yours.',fin:'Now put your phone down. Go to teacher Sardor\'s room. Behind the cooler, on the floor, something small is waiting for you.',d:'days since our first glance'},
+de:{a:'Zwei Blicke',h1:'Zieh das Licht zum anderen.',q:'Babe, was hatten wir an jenem Freitag?',o:['Eis 🍦','Pizza 🍕','Kaffee ☕','Suppe 🍲'],no:'Nicht ganz… denk an jenen Freitag 😉',h3:'Tippe auf die Rose',rs:['Wegen der Art, wie du mich ansiehst.','Weil du über meine Nachrichten lächelst.','Weil dich schon Kleinigkeiten glücklich machen.','Weil jener Freitag meine schönste Erinnerung wurde.','Weil jeder Tag mit dir sanfter ist.'],h4:'Fange 7 Herzen',h5:'Tippe auf den Schlüssel',lt:'Ezoza, alles begann im September mit einem einzigen Blick. Seitdem ist dein Lächeln über meine Nachrichten mein liebster Moment. Ich brauche nichts Großes, nur dich an meiner Seite. Für immer dein.',fin:'Leg jetzt dein Handy weg. Geh in das Zimmer von Lehrer Sardor. Hinter dem Kühler, auf dem Boden, wartet etwas Kleines auf dich.',d:'Tage seit unserem ersten Blick'},
+tr:{a:'İki bakış',h1:'Işığı diğerine doğru sürükle.',q:'Babe, o cuma günü ne yedik?',o:['Dondurma 🍦','Pizza 🍕','Kahve ☕','Çorba 🍲'],no:'Pek değil… o cuma gününü hatırla 😉',h3:'Güle dokun',rs:['Bana bakışın yüzünden.','Mesajlarıma güldüğün için.','En küçük şeyler bile seni mutlu ettiği için.','O cuma günü en sevdiğim anım olduğu için.','Seninle her gün daha yumuşak olduğu için.'],h4:'7 kalbi yakala',h5:'Anahtara dokun',lt:'Ezoza, her şey eylülde tek bir bakışla başladı. O günden beri mesajlarıma gülüşün en sevdiğim şey. Büyük şeylere ihtiyacım yok, sadece senin yanında olmak yeter. Hep senin.',fin:'Şimdi telefonu bırak. Sardor Hoca\'nın odasına git. Soğutucunun arkasında, yerde, küçük bir şey seni bekliyor.',d:'ilk bakışımızdan beri gün'}};
+let L;const $=s=>document.querySelector(s),S=$('#s');
+function show(h){$('#p').classList.remove('on');S.classList.add('on');S.innerHTML=h}
+function go(l){L=T[l];document.documentElement.lang=l;s1()}
+function s1(){show(`<h2>${L.a}</h2><p>${L.h1}</p><div id="f"><i id="o1"></i><i id="o2"></i></div>`);
+const o=$('#o2'),f=$('#f');let d=0;
+o.onpointerdown=e=>{d=1;o.setPointerCapture(e.pointerId)};
+o.onpointermove=e=>{if(!d)return;const r=f.getBoundingClientRect();o.style.left=Math.min(Math.max(e.clientX-r.left,20),r.width-20)+'px';
+if(Math.abs(o.offsetLeft-$('#o1').offsetLeft)<40){d=0;setTimeout(s2,700)}}}
+function s2(){show(`<h2>${L.q}</h2>`+L.o.map((t,i)=>`<button data-i="${i}">${t}</button>`).join('')+`<p id="n"></p>`);
+S.querySelectorAll('button').forEach(b=>b.onclick=()=>{if(b.dataset.i==0)s3();else{b.classList.add('sh');$('#n').textContent=L.no;setTimeout(()=>b.classList.remove('sh'),400)}})}
+function s3(){show(`<h2>${L.h3}</h2><div id="rose">🌹</div><p id="why"></p>`);let c=0;const r=$('#rose');
+r.onclick=()=>{if(c>=5)return;$('#why').textContent=L.rs[c];c++;r.style.transform=`scale(${1+c*.18})`;if(c==5)setTimeout(s4,3500)}}
+function s4(){show(`<h2>${L.h4}</h2><div id="arena"></div><p id="cnt">0 / 7</p>`);let n=0;const a=$('#arena');
+const iv=setInterval(()=>{const h=document.createElement('button');h.className='h';h.textContent=['❤️','💚','🌹'][Math.random()*3|0];h.style.left=Math.random()*85+'%';
+h.onpointerdown=()=>{h.remove();$('#cnt').textContent=++n+' / 7';if(n>=7){clearInterval(iv);setTimeout(s5,500)}};h.onanimationend=()=>h.remove();a.appendChild(h)},650)}
+function s5(){show(`<h2>${L.h5}</h2><button id="key">🗝️</button>`);$('#key').onclick=()=>{$('#key').textContent='🔓';setTimeout(stars,700)}}
+function stars(){const c=$('#c');c.classList.add('on');const x=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;const P=[],N=150,s=Math.min(c.width,c.height)/38;
+for(let i=0;i<N;i++){const t=i/N*6.283;P.push({x:Math.random()*c.width,y:Math.random()*c.height,tx:c.width/2+16*Math.sin(t)**3*s,ty:c.height*.42-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t))*s})}
+let f=0;(function d(){x.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.x+=(p.tx-p.x)*.03;p.y+=(p.ty-p.y)*.03;x.fillStyle='#e9c46a';x.beginPath();x.arc(p.x,p.y,2.2,0,7);x.fill()});
+if(f>140){x.globalAlpha=Math.min((f-140)/60,1);x.fillStyle='#f3ead7';x.font='italic '+s*2+'px Georgia';x.textAlign='center';x.fillText('Ezoza',c.width/2,c.height*.42+s);x.globalAlpha=1}
+if(++f<340)requestAnimationFrame(d);else{c.classList.remove('on');letter()}})()}
+function letter(){const dd=Math.max(0,Math.floor((Date.now()-new Date(START))/864e5));
+show(`<p id="let"></p><p id="fin">${L.fin}<br><br><small>${dd} ${L.d} ♥</small></p>`);let i=0;const el=$('#let');
+const t=setInterval(()=>{el.textContent=L.lt.slice(0,++i);if(i>=L.lt.length){clearInterval(t);setTimeout(()=>$('#fin').style.opacity=1,800)}},55)}
+let ac,mi;function mus(){if(mi){clearInterval(mi);mi=0;$('#m').textContent='🔇';return}
+try{ac=ac||new AudioContext()}catch(e){return}$('#m').textContent='🎵';const n=[392,440,523,587,659,587,523,440];let i=0;
+mi=setInterval(()=>{const o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime;o.frequency.value=n[i++%8];o.connect(g);g.connect(ac.destination);
+g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.08,t+.05);g.gain.exponentialRampToValueAtTime(.0001,t+1.2);o.start();o.stop(t+1.3)},650)}
+</script></body></html>
